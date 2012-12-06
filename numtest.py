@@ -41,7 +41,6 @@ class NumTestOutputChecker(_doctest_OutputChecker):
                 target, candidate = want[:-1], got[:-1]
                 return number_match(target, candidate)
             except ValueError:
-                print "****"
                 return False
         else:
             super_check_output = _doctest_OutputChecker.check_output
