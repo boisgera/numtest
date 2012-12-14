@@ -1,10 +1,19 @@
+#!/usr/bin/env python
+# coding: utf-8
 
-import __builtin__
+# Python 2.7 Standard Library
 import doctest
 import re
 import sys
 
+# Third-Party Libraries
 import numpy
+
+
+__author__ = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
+__version__ = "1.0.0"
+__license__ = "MIT License"
+
 
 _doctest_OutputChecker = doctest.OutputChecker
 
