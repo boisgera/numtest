@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "numtest fails with \"name 'array' is not defined\" "
+desc: ""
+type: :bugfix
+component: numtest
+release: 
+reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+status: :unstarted
+disposition: 
+creation_time: 2012-12-17 12:18:32.332065 Z
+references: []
+
+id: f686ba154b193244b91c4e89f78a87e872d569c0
+log_events: 
+- - 2012-12-17 12:18:34.651931 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - created
+  - ""
