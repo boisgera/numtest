@@ -12,7 +12,7 @@ import numpy
 
 
 __author__ = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
-__version__ = "1.0.1"
+__version__ = "1.0.2.dev"
 __license__ = "MIT License"
 
 
@@ -195,6 +195,8 @@ Test the directive on arrays:
     []
     >>> array([1.0]) # doctest: +NUMBER
     [1]
+    >>> array([-1.0]) # doctest: +NUMBER
+    [-1.0]
     >>> array([[1.0, 2.0], [3.0, 4.0]]) # doctest: +NUMBER
     [[1, 2], [3, 4]]
     """

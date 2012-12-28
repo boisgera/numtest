@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: fails to match array([-1.0]) with [-1.0]
+desc: ""
+type: :bugfix
+component: numtest
+release: 1.0.2
+reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+status: :unstarted
+disposition: 
+creation_time: 2012-12-28 15:35:20.340858 Z
+references: []
+
+id: 07daa8428faad486952c66d3bc97f9084fdfcb94
+log_events: 
+- - 2012-12-28 15:35:21.644289 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - created
+  - ""
+- - 2012-12-28 15:36:44.373812 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - assigned to release 1.0.2 from unassigned
+  - ""

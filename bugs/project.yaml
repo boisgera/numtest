@@ -7,10 +7,23 @@ components:
 releases: 
 - !ditz.rubyforge.org,2008-03-06/release 
   name: 1.0.1
+  status: :released
+  release_time: 2012-12-28 15:35:40.635764 Z
+  log_events: 
+  - - 2012-12-28 15:20:44.156768 Z
+    - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+    - created
+    - ""
+  - - 2012-12-28 15:35:40.635784 Z
+    - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 1.0.2
   status: :unreleased
   release_time: 
   log_events: 
-  - - 2012-12-28 15:20:44.156768 Z
+  - - 2012-12-28 15:36:17.003182 Z
     - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
     - created
     - ""
