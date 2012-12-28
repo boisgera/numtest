@@ -12,7 +12,7 @@ import numpy
 
 
 __author__ = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
-__version__ = "1.0.2.dev"
+__version__ = "1.0.2"
 __license__ = "MIT License"
 
 
@@ -82,6 +82,8 @@ The text can be a single number or a list of numbers that may be nested.
     [['0.1', '2.00'], ['1e-2', '3.14'], ['6.78e7', '0.001e-6']]
     >>> parse_numbers("array([0, 1, 2], uint8)")
     ['0', '1', '2']
+    >>> parse_numbers("-1.0")
+    '-1.0'
     """
     text_wrapper = StringIO.StringIO(text).readline
     tokens = list(tokenize.generate_tokens(text_wrapper))
@@ -90,7 +92,7 @@ The text can be a single number or a list of numbers that may be nested.
         type_, text, _, _, _ = token
         if type_ in [tokenize.NUMBER, tokenize.NL, tokenize.ENDMARKER]:
             return True
-        elif type_ == tokenize.OP and text in ["[", "]", ","]:
+        elif type_ == tokenize.OP and text in ["[", "]", ",", "+", "-"]:
             return True
         else:
             return False
@@ -105,6 +107,7 @@ The text can be a single number or a list of numbers that may be nested.
     insert = lambda: stack.append([])
     push = lambda item: stack[-1].append(item)
 
+    sign = ""
     for token in tokens:
         type_, text, _, _, _ = token
         if type_ == tokenize.OP:
@@ -114,10 +117,16 @@ The text can be a single number or a list of numbers that may be nested.
                 fold()
             elif text == ",":
                 pass
+            elif text == "-":
+                sign = "-"
+            elif text == "+":
+                pass
             else:
                 break
         elif type_ == tokenize.NUMBER:
+            text = sign + text
             push(text)
+            sign = ""
         elif type_ == tokenize.NL:
             pass
         else:

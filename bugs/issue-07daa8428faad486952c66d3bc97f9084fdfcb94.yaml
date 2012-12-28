@@ -5,8 +5,8 @@ type: :bugfix
 component: numtest
 release: 1.0.2
 reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2012-12-28 15:35:20.340858 Z
 references: []
 
@@ -19,4 +19,8 @@ log_events:
 - - 2012-12-28 15:36:44.373812 Z
   - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
   - assigned to release 1.0.2 from unassigned
+  - ""
+- - 2012-12-28 23:46:55.422061 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - closed with disposition fixed
   - ""
