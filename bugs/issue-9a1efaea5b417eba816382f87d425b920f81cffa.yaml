@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: basic sphinx support
+desc: ""
+type: :task
+component: numtest
+release: 1.1.0
+reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+status: :unstarted
+disposition: 
+creation_time: 2012-12-29 21:26:26.653703 Z
+references: []
+
+id: 9a1efaea5b417eba816382f87d425b920f81cffa
+log_events: 
+- - 2012-12-29 21:26:27.653700 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - created
+  - ""
