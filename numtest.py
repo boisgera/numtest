@@ -7,14 +7,15 @@ import re
 import sys
 import StringIO
 import tokenize
+
 # Third-Party Libraries
 import numpy
 
 
-__author__ = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
-__version__ = "1.0.2"
+__author__  = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
+__version__ = "2.0.0.dev"
 __license__ = "MIT License"
-
+__url__     = "https://github.com/boisgera/numtest"
 
 _doctest_OutputChecker = doctest.OutputChecker
 
