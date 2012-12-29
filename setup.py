@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+import os
 import sys
 from distutils.core import setup
 
@@ -47,7 +48,7 @@ def get_info(module):
     return info
 
 sys.path.insert(0, "."); import numtest
-numtest = get_info(numtest)
+info = get_info(numtest)
 
-setup(info)
+setup(**info)
 
