@@ -31,3 +31,12 @@ releases:
     - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
     - released
     - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 1.1.0
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2012-12-29 12:46:13.970567 Z
+    - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+    - created
+    - ""
