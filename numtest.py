@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
+"""
+Doctest extension to compare floating-point numbers
+"""
 
 # Python 2.7 Standard Library
 import doctest

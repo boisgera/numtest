@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-"""
-Doctest extension to compare floating-point numbers
-"""
-
 from distutils.core import setup
 
 def get_info(module):
