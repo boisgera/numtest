@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: solved issues in generated rst file
+desc: ""
+type: :bugfix
+component: numtest
+release: 
+reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+status: :unstarted
+disposition: 
+creation_time: 2012-12-29 21:44:43.857040 Z
+references: []
+
+id: 5d9024e8dd10347f79fb1b0e711a09430de7baf8
+log_events: 
+- - 2012-12-29 21:44:46.246474 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - created
+  - ""
