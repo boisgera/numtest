@@ -57,8 +57,8 @@ Hence the test below would fail:
     >>> x # doctest: +NUMBER
     [0.00, 0.333333333333, 0.667, 1.00]
 
-However, the display precision used by NumPy is configurable with 
-[`set_printoptions`][set_printoptions]. The prior invocation of
+However, the [display precision used by NumPy is configurable][set_printoptions]. 
+The prior invocation of
 
     >>> numpy.set_printoptions(precision=17)
 

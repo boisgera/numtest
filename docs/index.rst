@@ -70,8 +70,8 @@ default. Hence the test below would fail:
     >>> x # doctest: +NUMBER
     [0.00, 0.333333333333, 0.667, 1.00]
 
-However, the display precision used by NumPy is configurable with
-```set_printoptions`` <http://docs.scipy.org/doc/numpy/reference/generated/numpy.set_printoptions.html>`_.
+However, the `display precision used by NumPy is
+configurable <http://docs.scipy.org/doc/numpy/reference/generated/numpy.set_printoptions.html>`_.
 The prior invocation of
 
 ::
