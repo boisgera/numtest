@@ -3,10 +3,10 @@ title: solved issues in generated rst file
 desc: ""
 type: :bugfix
 component: numtest
-release: 
+release: 1.2.0
 reporter: boisgera <Sebastien.Boisgerault@mines-paristech.fr>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2012-12-29 21:44:43.857040 Z
 references: []
 
@@ -15,4 +15,12 @@ log_events:
 - - 2012-12-29 21:44:46.246474 Z
   - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
   - created
+  - ""
+- - 2012-12-30 10:13:41.136978 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - assigned to release 1.2.0 from unassigned
+  - ""
+- - 2012-12-30 10:14:11.017761 Z
+  - boisgera <Sebastien.Boisgerault@mines-paristech.fr>
+  - closed with disposition fixed
   - ""
