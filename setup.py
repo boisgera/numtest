@@ -1,54 +1,24 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+# Python 2.7 Standard Library
 import os
 import sys
-from distutils.core import setup
 
-def get_info(module):
-    "Extract distutils configuration information from a module"
- 
-    info = {}
+# Third-Party Libraries
+import about
+import setuptools
 
-    name = getattr(module, "__name__", None)
-    if not name:
-        name = module.__file__.split(".")[0]
-    info["name"] = name
 
-    author_info = getattr(module, "__author__", None)
-    if author_info:
-        # "author <author_email>" syntax expected
-        info["author"] = author_info.split("<")[0].strip()
-        info["author_email"] = author_info.split("<")[1].strip()[:-1]
+contents = dict(py_modules=["numtest", "about_numtest"])
+metadata = about.get_metadata("about_numtest")
+requirements = dict(install_requires="numpy")
 
-    license = getattr(module, "__license__", None)
-    if license:
-        info["license"] = license
+info = {}
+info.update(contents)
+info.update(metadata)
+info.update(requirements)
 
-    url = getattr(module, "__url__", None)
-    if url:
-        info["url"] = url
-
-    version = getattr(module, "__version__", None)
-    if version:
-        info["version"] = version
-
-    doc = getattr(module, "__doc__", None)
-    if doc:
-        # the description is expected to be the first non-blank doc line
-        lines = doc.splitlines()
-        for line in lines:
-            if line:
-                info["description"] = line
-                break
-
-    module = getattr(module, "__file__")
-    if module:
-        info["py_modules"] = [os.path.basename(module).split(".")[0]]
-
-    return info
-
-sys.path.insert(0, "."); import numtest
-info = get_info(numtest)
-
-setup(**info)
+if __name__ == "__main__":
+    setuptools.setup(**info)
 

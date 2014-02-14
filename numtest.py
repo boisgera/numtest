@@ -14,11 +14,15 @@ import tokenize
 # Third-Party Libraries
 import numpy
 
+#
+# Metadata
+# ------------------------------------------------------------------------------
+#
+from about_numtest import *
 
-__author__  = u"Sébastien Boisgérault <Sebastien.Boisgerault@mines-paristech.fr>"
-__version__ = "1.1.1.dev"
-__license__ = "MIT License"
-__url__     = "https://github.com/boisgera/numtest"
+#
+# ------------------------------------------------------------------------------
+#
 
 _doctest_OutputChecker = doctest.OutputChecker
 
