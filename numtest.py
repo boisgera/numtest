@@ -54,7 +54,7 @@ def number_match(want, got):
     threshold = 0.5 * 10 ** (exponent(want))
     match = abs(float(want) - float(got)) < threshold    
     if not match:
-        raise RuntimeError(want, got)
+        return False
     else:
         return True    
 
