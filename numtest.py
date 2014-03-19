@@ -24,7 +24,13 @@ from about_numtest import *
 # ------------------------------------------------------------------------------
 #
 
-_doctest_OutputChecker = doctest.OutputChecker
+# declare the new doctest directive NUMBER 
+NUMBER = doctest.register_optionflag("NUMBER")
+doctest.NUMBER = NUMBER
+doctest.__all__.append("NUMBER")
+doctest.COMPARISON_FLAGS = doctest.COMPARISON_FLAGS | NUMBER
+
+
 
 _float = r"""[-+]?
              (?: 
@@ -45,18 +51,12 @@ def exponent(number):
         exponent = int(match.group("exponent") or 0)
         return exponent - ndigits
 
-NUMBER = doctest.register_optionflag("NUMBER")
-doctest.NUMBER = NUMBER
-doctest.__all__.append("NUMBER")
-doctest.COMPARISON_FLAGS = doctest.COMPARISON_FLAGS | NUMBER
-
 def number_match(want, got):
-    threshold = 0.5 * 10 ** (exponent(want))
-    match = abs(float(want) - float(got)) < threshold    
-    if not match:
-        return False
+    if want in ["inf", "-inf"]:
+        return got == want or (got == "+inf" and want == "inf")
     else:
-        return True    
+        threshold = 0.5 * 10 ** (exponent(want))
+        return abs(float(want) - float(got)) < threshold    
 
 def array_match(want, got):
     try: 
@@ -92,6 +92,8 @@ The text can be a single number or a list of numbers that may be nested.
     ['0', '1', '2']
     >>> parse_numbers("-1.0")
     '-1.0'
+    >>> parse_numbers("inf")
+    'inf'
     """
     text_wrapper = StringIO.StringIO(text).readline
     tokens = list(tokenize.generate_tokens(text_wrapper))
@@ -99,6 +101,8 @@ The text can be a single number or a list of numbers that may be nested.
     def valid(token):
         type_, text, _, _, _ = token
         if type_ in [tokenize.NUMBER, tokenize.NL, tokenize.ENDMARKER]:
+            return True
+        elif type_ == tokenize.NAME and text == "inf":
             return True
         elif type_ == tokenize.OP and text in ["[", "]", ",", "+", "-"]:
             return True
@@ -135,6 +139,10 @@ The text can be a single number or a list of numbers that may be nested.
             text = sign + text
             push(text)
             sign = ""
+        elif type_ == tokenize.NAME and text == "inf":
+            text = sign + text
+            push(text)
+            sign = ""
         elif type_ == tokenize.NL:
             pass
         else:
@@ -144,6 +152,12 @@ The text can be a single number or a list of numbers that may be nested.
         raise SyntaxError("invalid syntax {0!r}".format(text))
     else:
         return stack[0][0]
+
+#
+# Numerical Output Checker
+# ------------------------------------------------------------------------------
+#
+_doctest_OutputChecker = doctest.OutputChecker
 
 class NumTestOutputChecker(_doctest_OutputChecker):
     def check_output(self, want, got, optionflags):
@@ -160,8 +174,13 @@ class NumTestOutputChecker(_doctest_OutputChecker):
         super_output_difference = _doctest_OutputChecker.output_difference
         return super_output_difference(self, example, got, optionflags)
 
+# monkey-patching
 doctest.OutputChecker = NumTestOutputChecker
 
+#
+# Unit Tests
+# ------------------------------------------------------------------------------
+#
 def test():
     """
 Test the succes of doctest monkey-patching
@@ -195,6 +214,8 @@ Test the directive on scalars:
     1e3
     >>> 1049 # doctest: +NUMBER
     1e3
+    >>> 1e500 # doctest: +NUMBER
+    inf
 
 Test the directive on lists:
 
