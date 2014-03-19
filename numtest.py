@@ -56,7 +56,7 @@ def number_match(want, got):
         return got == want or (got == "+inf" and want == "inf")
     else:
         threshold = 0.5 * 10 ** (exponent(want))
-        return abs(float(want) - float(got)) < threshold    
+        return abs(float(want) - float(got)) <= threshold    
 
 def array_match(want, got):
     try: 
