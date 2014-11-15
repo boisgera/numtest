@@ -35,6 +35,8 @@ doctest.COMPARISON_FLAGS = doctest.COMPARISON_FLAGS | NUMBER
 # TODO: need to handle inf / nan at the regular expression level ...
 #       at least for the single top-level capture version.
 
+# TODO: support for complex numbers (Ouch) ?
+
 # TODO: best strategy wrt integers ? capture or not ?
 
 # number pattern
