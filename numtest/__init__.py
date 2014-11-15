@@ -32,15 +32,101 @@ doctest.COMPARISON_FLAGS = doctest.COMPARISON_FLAGS | NUMBER
 
 
 
-_float = r"""[-+]?
-             (?: 
-                 (?:\d*\.(?P<digits>\d+)) 
-                 | 
-                 (?:\d+\.?) 
-             )
-             (?:[Ee](?P<exponent>[+-]?\d+))?
-          """
-_float_pattern = re.compile(_float, re.VERBOSE)
+# TODO: need to handle inf / nan at the regular expression level ...
+#       at least for the single top-level capture version.
+
+# TODO: best strategy wrt integers ? capture or not ?
+
+# number pattern
+_number = re.compile(r"""
+(?P<number>
+  (?P<mantissa>
+    (?:
+      (?:
+        (?P<integer1> [+-]?\d*)\.(?P<fraction>\d+) 
+      )
+      | 
+      (?:
+        (?P<integer2> [+-]?\d+)\.?
+      ) 
+    )
+  )
+  (?:
+    [Ee]
+    (?P<exponent>[+-]?\d+)
+  )?
+)
+""", re.VERBOSE)
+
+# same thing, but with a single top-level capture
+_number_alt = re.compile(r"""
+(
+  (?:
+    [+-]?
+    (?:
+      (?: \d*\.\d+) | (?: \d+\.?) 
+    )
+  )
+  (?: [Ee][+-]?\d+)?
+)
+""", re.VERBOSE)
+
+def anatomy(number):
+    match = _number.match(number)
+    if not match or match.group() != number:
+        raise ValueError("invalid number syntax {0!r}".format(number))
+    dct = match.groupdict()
+    integer = 0
+    for key in ["integer1", "integer2"]:
+        if dct[key] is not None:
+            integer = int(dct[key] or "0")
+    fraction = [int(digit) for digit in (dct["fraction"] or "")]
+    exponent = int(dct["exponent"] or "0")
+    return integer, fraction, exponent
+
+
+
+def number_match(want, got):
+    if want == "nan":
+       return got == "nan""
+    elif want in ["inf", "-inf"]:
+        return got == want or (got == "+inf" and want == "inf")
+    else:
+        iw, fw, ew = anatomy(want)
+        while fw:
+            iw = 10 * iw + fw.pop(0)
+            ew = ew - 1
+        ig, fg, eg = anatomy(got)
+        while eg > ew:
+            if fg:
+                new_digit = fg.pop(0)
+            else:
+                new_digit = 0
+            ig = 10 * ig + new_digit
+            eg = eg - 1
+        while eg < ew:
+            new_digit = ig % 10
+            ig = ig // 10
+            fg.insert(0, new_digit)
+            eg = eg + 1
+        half = [5]
+        if fg == []:
+            fg = [0]
+        elif len(fg) > 1:
+            half.extend((len(fg) - 1) * [0])
+
+    print iw, fw, ew
+    print ig, fg, eg
+
+    if ig == iw and fg <= half:
+        return True
+    elif ig == iw - 1 and fg >= half:
+        return True
+    else:
+        return False
+            
+
+ 
 
 def exponent(number):
     match = _float_pattern.match(number)
@@ -51,7 +137,7 @@ def exponent(number):
         exponent = int(match.group("exponent") or 0)
         return exponent - ndigits
 
-def number_match(want, got):
+def _number_match(want, got):
     if want in ["inf", "-inf"]:
         return got == want or (got == "+inf" and want == "inf")
     else:
