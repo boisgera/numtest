@@ -86,11 +86,9 @@ def anatomy(number):
     exponent = int(dct["exponent"] or "0")
     return integer, fraction, exponent
 
-
-
 def number_match(want, got):
     if want == "nan":
-       return got == "nan""
+       return got == "nan"
     elif want in ["inf", "-inf"]:
         return got == want or (got == "+inf" and want == "inf")
     else:
@@ -117,129 +115,23 @@ def number_match(want, got):
         elif len(fg) > 1:
             half.extend((len(fg) - 1) * [0])
 
-    print iw, fw, ew
-    print ig, fg, eg
-
     if ig == iw and fg <= half:
         return True
     elif ig == iw - 1 and fg >= half:
         return True
     else:
         return False
-            
 
- 
-
-def exponent(number):
-    match = _float_pattern.match(number)
-    if not match or match.group() != number:
-        raise ValueError("invalid float syntax {0!r}".format(number))
-    else:
-        ndigits  = len(match.group("digits") or "")
-        exponent = int(match.group("exponent") or 0)
-        return exponent - ndigits
-
-def _number_match(want, got):
-    if want in ["inf", "-inf"]:
-        return got == want or (got == "+inf" and want == "inf")
-    else:
-        threshold = 0.5 * 10 ** (exponent(want))
-        return abs(float(want) - float(got)) <= threshold    
-
-def array_match(want, got):
-    try: 
-        want_array = parse_numbers(want)
-        got_array  = parse_numbers(got)
-    except SyntaxError:
+def match(want, got):
+    items_want = _number_alt.split(want)
+    items_got  = _number_alt.split(got)
+    if items_want[::2] != items_got[::2]:
         return False
-    if numpy.shape(want_array) != numpy.shape(got_array):
+    nums_want = items_want[1::2]
+    nums_got  = items_got[1::2]
+    if len(nums_want) != len(nums_got):
         return False
-    else:
-        want_array = numpy.ravel(want_array)
-        got_array = numpy.ravel(got_array)
-        indices = range(len(want_array))
-        return all(number_match(want_array[i], got_array[i]) for i in indices)
-
-def parse_numbers(text):
-    """
-Parse text that represent numbers.
-
-The text can be a single number or a list of numbers that may be nested.
-
-    >>> parse_numbers("1.34e-7")
-    '1.34e-7'
-    >>> parse_numbers("42")
-    '42'
-    >>> parse_numbers("[42]")
-    ['42']
-    >>> parse_numbers("[1, 2, 3]")
-    ['1', '2', '3']
-    >>> parse_numbers("[[0.1, 2.00], [1e-2, 3.14], [6.78e7, 0.001e-6]]")
-    [['0.1', '2.00'], ['1e-2', '3.14'], ['6.78e7', '0.001e-6']]
-    >>> parse_numbers("array([0, 1, 2], uint8)")
-    ['0', '1', '2']
-    >>> parse_numbers("-1.0")
-    '-1.0'
-    >>> parse_numbers("inf")
-    'inf'
-    """
-    text_wrapper = StringIO.StringIO(text).readline
-    tokens = list(tokenize.generate_tokens(text_wrapper))
-
-    def valid(token):
-        type_, text, _, _, _ = token
-        if type_ in [tokenize.NUMBER, tokenize.NL, tokenize.ENDMARKER]:
-            return True
-        elif type_ == tokenize.NAME and text == "inf":
-            return True
-        elif type_ == tokenize.OP and text in ["[", "]", ",", "+", "-"]:
-            return True
-        else:
-            return False
-
-    while tokens and not valid(tokens[0]):
-        tokens.pop(0)
-    if not tokens:
-        return None
-
-    stack = [[]]
-    fold = lambda: stack[-2].append(stack.pop())
-    insert = lambda: stack.append([])
-    push = lambda item: stack[-1].append(item)
-
-    sign = ""
-    for token in tokens:
-        type_, text, _, _, _ = token
-        if type_ == tokenize.OP:
-            if text == "[":
-                insert()        
-            elif text == "]":
-                fold()
-            elif text == ",":
-                pass
-            elif text == "-":
-                sign = "-"
-            elif text == "+":
-                pass
-            else:
-                break
-        elif type_ == tokenize.NUMBER:
-            text = sign + text
-            push(text)
-            sign = ""
-        elif type_ == tokenize.NAME and text == "inf":
-            text = sign + text
-            push(text)
-            sign = ""
-        elif type_ == tokenize.NL:
-            pass
-        else:
-            break
-
-    if len(stack) != 1:
-        raise SyntaxError("invalid syntax {0!r}".format(text))
-    else:
-        return stack[0][0]
+    return all(number_match(w, g) for w, g in zip(nums_want, nums_got))
 
 #
 # Numerical Output Checker
@@ -250,11 +142,7 @@ _doctest_OutputChecker = doctest.OutputChecker
 class NumTestOutputChecker(_doctest_OutputChecker):
     def check_output(self, want, got, optionflags):
         if optionflags & NUMBER:
-            if want.endswith("\n"):
-                want = want[:-1]
-            if got.endswith("\n"):
-                got = got[:-1]
-            return array_match(want, got)
+            return match(want, got)
         else:
             super_check_output = _doctest_OutputChecker.check_output
             return super_check_output(self, want, got, optionflags)
