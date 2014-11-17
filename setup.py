@@ -17,26 +17,26 @@ except ImportError:
 # Numpy
 import numpy
 
-def local(path):
+def srcdir(path):
     return os.path.join(os.path.dirname(__file__), path)
 
 # Extra Third-Party Libraries
-sys.path.insert(1, local(".lib"))
+sys.path.insert(1, srcdir(".lib"))
 try:
     setup_requires = ["about>=4.0.0"]
     require = lambda *r: pkg_resources.WorkingSet().require(*r)
-    require(*setup_requires)
+    require(setup_requires)
     import about
 except pkg_resources.DistributionNotFound:
     error = """{req!r} not found; install it locally with:
 
-    pip install --target=.lib --ignore-installed {req!r}
+    pip install --target=.lib --ignore-installed {req}
 """
     raise ImportError(error.format(req=" ".join(setup_requires)))
 import about
 
 # This Package
-sys.path.insert(1, local("numtest"))
+sys.path.insert(1, srcdir("numtest"))
 import about_numtest
 
 info = dict(
