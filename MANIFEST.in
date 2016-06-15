@@ -3,4 +3,4 @@ include README.md
 include test.py
 
 recursive-include .lib *
-recursive_exclude .lib *.pyc
+recursive-exclude .lib *.pyc
