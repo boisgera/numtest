@@ -31,6 +31,7 @@ doctest.__all__.append("NUMBER")
 doctest.COMPARISON_FLAGS = doctest.COMPARISON_FLAGS | NUMBER
 
 
+# TODO: don't crash on non-array expected result (ex: nothing)
 
 # TODO: need to handle inf / nan at the regular expression level ...
 #       at least for the single top-level capture version.
@@ -125,13 +126,14 @@ def number_match(want, got):
 def match(want, got):
     items_want = _number_alt.split(want)
     items_got  = _number_alt.split(got)
-    if items_want[::2] != items_got[::2]:
-        return False
+#    if items_want[::2] != items_got[::2]: # match the separators
+#        return False
     nums_want = items_want[1::2]
     nums_got  = items_got[1::2]
     if len(nums_want) != len(nums_got):
         return False
     return all(number_match(w, g) for w, g in zip(nums_want, nums_got))
+
 
 #
 # Numerical Output Checker

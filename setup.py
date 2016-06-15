@@ -14,9 +14,6 @@ except ImportError:
     error = "pip is not installed, refer to <{url}> for instructions."
     raise ImportError(error.format(url="http://pip.readthedocs.org"))
 
-# Numpy
-import numpy
-
 def srcdir(path):
     return os.path.join(os.path.dirname(__file__), path)
 
@@ -43,7 +40,7 @@ info = dict(
   metadata     = about.get_metadata(about_numtest),
   code         = dict(packages=setuptools.find_packages()),
   data         = {},
-  requirements = {},
+  requirements = dict(install_requires=["numpy"]),
   scripts      = {},
   plugins      = {},
   tests        = dict(test_suite="test.suite"),
