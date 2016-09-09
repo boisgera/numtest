@@ -94,19 +94,21 @@ def number_match(want, got):
         return got == want or (got == "+inf" and want == "inf")
     else:
         iw, fw, ew = anatomy(want)
+        sw = 2 * (iw > 0) - 1
         while fw:
-            iw = 10 * iw + fw.pop(0)
+            iw = 10 * iw + sw * fw.pop(0)
             ew = ew - 1
         ig, fg, eg = anatomy(got)
+        sg = 2 * (iw > 0) - 1
         while eg > ew:
             if fg:
                 new_digit = fg.pop(0)
             else:
                 new_digit = 0
-            ig = 10 * ig + new_digit
+            ig = 10 * ig + sg * new_digit
             eg = eg - 1
         while eg < ew:
-            new_digit = ig % 10
+            new_digit = abs(ig) % 10
             ig = ig // 10
             fg.insert(0, new_digit)
             eg = eg + 1
@@ -116,12 +118,20 @@ def number_match(want, got):
         elif len(fg) > 1:
             half.extend((len(fg) - 1) * [0])
 
-    if ig == iw and fg <= half:
-        return True
-    elif ig == iw - 1 and fg >= half:
-        return True
-    else:
-        return False
+    if iw == 0:
+        if ig == iw and fg <= half:
+            return True
+    elif iw > 0:
+        if i == iw and fg <= half:
+            return True
+        elif ig == iw - 1 and fg >= half:
+            return True
+    elif iw < 0:
+        if ig == iw and fg <= half:
+            return True
+        elif ig == iw + 1 and fg >= half:
+            return True
+    return False
 
 def match(want, got):
     items_want = _number_alt.split(want)
