@@ -122,7 +122,7 @@ def number_match(want, got):
         if ig == iw and fg <= half:
             return True
     elif iw > 0:
-        if i == iw and fg <= half:
+        if ig == iw and fg <= half:
             return True
         elif ig == iw - 1 and fg >= half:
             return True
