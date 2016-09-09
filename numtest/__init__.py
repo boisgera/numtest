@@ -94,12 +94,12 @@ def number_match(want, got):
         return got == want or (got == "+inf" and want == "inf")
     else:
         iw, fw, ew = anatomy(want)
-        sw = 2 * (iw > 0) - 1
+        sw = 2 * (iw >= 0) - 1
         while fw:
             iw = 10 * iw + sw * fw.pop(0)
             ew = ew - 1
         ig, fg, eg = anatomy(got)
-        sg = 2 * (iw > 0) - 1
+        sg = 2 * (ig >= 0) - 1
         while eg > ew:
             if fg:
                 new_digit = fg.pop(0)
@@ -109,7 +109,7 @@ def number_match(want, got):
             eg = eg - 1
         while eg < ew:
             new_digit = abs(ig) % 10
-            ig = ig // 10
+            ig = sg * (abs(ig) // 10)
             fg.insert(0, new_digit)
             eg = eg + 1
         half = [5]
